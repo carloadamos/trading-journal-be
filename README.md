@@ -3,7 +3,7 @@
 Following example here:
 https://www.smashingmagazine.com/2020/04/express-api-backend-project-postgresql/
 
-[![Build Status](https://travis-ci.com/carloadamos/trading-journal-fe.svg?branch=main)](https://travis-ci.com/carloadamos/trading-journal-fe)
+[![Build Status](https://travis-ci.com/carloadamos/trading-journal-be.svg?branch=main)](https://travis-ci.com/carloadamos/trading-journal-be)
 
 [![Coverage Status](https://coveralls.io/repos/github/carloadamos/trading-journal-be/badge.svg?branch=main)](https://coveralls.io/github/carloadamos/trading-journal-be?branch=main)
 
