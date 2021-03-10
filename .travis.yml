@@ -1,32 +1,39 @@
 language: node_js
 env:
   global:
-    - CC_TEST_REPORTER_ID=de88e82c5d735f99ebbb9eb503443e486c32fc374c362fd533d82d979f026c73
+  - CC_TEST_REPORTER_ID=de88e82c5d735f99ebbb9eb503443e486c32fc374c362fd533d82d979f026c73
 matrix:
   include:
   - node_js: '12'
 cache:
-  directories: [node_modules]
-install:
-  yarn
+  directories:
+  - node_modules
+install: yarn
 after_success: yarn coverage
 before_script:
-  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-  - chmod +x ./cc-test-reporter
-  - ./cc-test-reporter before-build
-  - psql -c 'create database testdb;' -U postgres
+- curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64
+  > ./cc-test-reporter
+- chmod +x ./cc-test-reporter
+- "./cc-test-reporter before-build"
+- psql -c 'create database testdb;' -U postgres
 script:
-  - yarn test
+- yarn test
 after_script:
-  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+- "./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT"
 services:
-  - postgresql
+- postgresql
 addons:
-  postgresql: "10"
+  postgresql: '10'
   apt:
     packages:
     - postgresql-10
     - postgresql-client-10
 before_install:
-  - sudo cp /etc/postgresql/{9.6,10}/main/pg_hba.conf
-  - sudo /etc/init.d/postgresql restart
+- sudo cp /etc/postgresql/{9.6,10}/main/pg_hba.conf
+- sudo /etc/init.d/postgresql restart
+deploy:
+  provider: heroku
+  app:
+    master: trading-journal-be
+  api_key:
+    secure: ZN9QNUyGlg40QjYXZyZr/YDkydeaadp4ME+CTJnl5kI25AYVkphhrb8xlbwDEt+mx83DO3iGjgHh7bklwv9fIg8c1okPQG3VO4hkp+b+bF4/zsnI/EHnMpfwfQMpbg0tdrO3QdCcxKlk2vQH2ZilUvtNkcM1XTIQ+W/ISfLeRMOLPC9OVZEyvkGrlPvSN/trM/2wEqEiWFCyG/MMgoUffi9jq+Mns6bHldLgYGDivAysM7qnyBwU4+C+xu7HNG2qI2X8VpfhRwBOrbA4fPS9SpVlNM/b5uHX/1EjYEEfludq7lVHP9Y8uBdCd/W0aNzryoeIRljQyHzElQd0heQTtw91PsL3TGZVVmcNsJ+MZXuEz9VfGg/Tebo+71aoCZpSv1C0WjagyidJpxEPZ7iVsSTK2G2n8QvQzPTK31LQlJwAlep7gO7ksG+1pG9qiOzf+z2oLqU6mRD4m8O7EX+zSmLVUNBpKBXZBGM2KSOJo2UwRlxdDAj+8MMPiVRwLoIASUubc27qDIlv7E0mObXcCmea5jqvLw4gr/4MVOHv0Tm1CEtoPgfsE5gpaSuBQIyy0UFl6p236VeBqV+6HUCfiDTujdq45ykoIKnCxyoXD6Bh2q7UfcP1oeZ4AyUurArTLyMgyujXj9Ooi6crMqtdwzTMbtTVa1vr+K3YCSZFCJk=
